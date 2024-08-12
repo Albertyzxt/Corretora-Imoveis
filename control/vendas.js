@@ -1,6 +1,8 @@
 const prompt = require("prompt-sync")();
 
-const corretora = require("./corretora.js");
+const cliente = require("./clientes.js");
+const imoveis = require("./imoveis.js");
+const corretor = require("./corretor.js");
 
 const db = [];
 
@@ -16,28 +18,46 @@ function getIndex(id) {
   }
 }
 
-const show = (id) => {
-  const el = db.find(el => el.id == id)
-
-  return el
-}
-
 const model = (id = ++ultimoId) => {
-  const nome = prompt("Digite o nome: ");
+  let id_corretor = 0;
 
-  let id_corretora = 0;
-  if (corretora.read()) {
-    id_corretora = parseInt(prompt("Digite o ID da Corretora: "));
+  if (corretor.read()) {
+    id_corretor = parseInt(prompt("Digite o ID do Corretor: "));
   }
 
-  if (nome != "" && corretora.show(id_corretora)) {
+  let id_imoveis = 0;
+
+  if (imoveis.read()) {
+    id_imoveis = parseInt(prompt("Digite o ID do Imóvel: "));
+  }
+
+  let id_cliente = 0;
+
+  if (cliente.read()) {
+    id_cliente = parseInt(prompt("Digite o ID do Cliente: "));
+  }
+
+  if (
+    corretor.show(id_corretor) &&
+    imoveis.show(id_imoveis) &&
+    cliente.show(id_cliente) &&
+    corretor.show(id_corretor).id_corretora ==
+    imoveis.show(id_imoveis).id_corretora
+  ) {
     return {
       id,
-      nome,
-      id_corretora,
+      id_corretor,
+      id_imoveis,
+      id_cliente
     };
   }
   console.log("Dados inválidos!");
+};
+
+const show = (id) => {
+  const el = db.find((el) => el.id == id);
+
+  return el;
 };
 
 const create = () => {
@@ -89,11 +109,11 @@ const del = () => {
   }
 };
 
-const corretoraFunctions = {
+const vendasFunctions = {
+  show,
   create,
   read,
   update,
   del,
-  show,
 };
-module.exports = corretoraFunctions;
+module.exports = vendasFunctions;

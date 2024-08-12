@@ -16,14 +16,22 @@ function getIndex(id) {
   }
 }
 
+const show = (id) => {
+  const el = db.find(el => el.id == id)
+
+  return el
+}
+
 const model = (id = ++ultimoId) => {
-  const numero = parseInt(prompt("Digite o número: "));
-  const rua = prompt("Digite o número: ");
-  const bairro = prompt("Digite o número: ");
+  const numero = parseInt(prompt("Digite o número do imóvel: "));
+  const rua = prompt("Digite a rua do imóvel: ");
+  const bairro = prompt("Digite o bairro do imóvel: ");
 
   let id_corretora = 0;
   if (corretora.read()) {
     id_corretora = parseInt(prompt("Digite o ID da Corretora: "));
+  } else {
+    console.log("Nenhuma corretora encotrada")
   }
 
   if (!isNaN(numero) && rua != "" && bairro != "" && corretora.show(id_corretora)) {
@@ -87,10 +95,11 @@ const del = () => {
   }
 };
 
-const corretoraFunctions = {
+const imoveisFunctions = {
   create,
   read,
   update,
   del,
+  show,
 };
-module.exports = corretoraFunctions;
+module.exports = imoveisFunctions;

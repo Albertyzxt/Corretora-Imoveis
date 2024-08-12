@@ -1,7 +1,5 @@
 const prompt = require("prompt-sync")();
 
-const corretora = require("./corretora.js");
-
 const db = [];
 
 let ultimoId = 0;
@@ -16,29 +14,23 @@ function getIndex(id) {
   }
 }
 
-const show = (id) => {
-  const el = db.find(el => el.id == id)
-
-  return el
-}
-
 const model = (id = ++ultimoId) => {
-  const nome = prompt("Digite o nome: ");
+  const nome = prompt("Digite o nome do cliente: ");
 
-  let id_corretora = 0;
-  if (corretora.read()) {
-    id_corretora = parseInt(prompt("Digite o ID da Corretora: "));
-  }
-
-  if (nome != "" && corretora.show(id_corretora)) {
+  if (nome != "") {
     return {
       id,
       nome,
-      id_corretora,
     };
   }
   console.log("Dados inválidos!");
 };
+
+const show = (id) => {
+    const el = db.find(el => el.id == id)
+
+    return el
+}
 
 const create = () => {
   const novo = model();
@@ -89,11 +81,11 @@ const del = () => {
   }
 };
 
-const corretoraFunctions = {
+const clienteFunctions = {
+  show,
   create,
   read,
   update,
   del,
-  show,
 };
-module.exports = corretoraFunctions;
+module.exports = clienteFunctions;

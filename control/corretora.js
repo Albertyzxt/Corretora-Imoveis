@@ -15,7 +15,7 @@ function getIndex(id) {
 }
 
 const model = (id = ++ultimoId) => {
-  const nome = prompt("Digite o nome: ");
+  const nome = prompt("Digite o nome da corretora: ");
 
   if (nome != "") {
     return {
